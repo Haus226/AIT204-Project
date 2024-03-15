@@ -106,12 +106,13 @@ AStarBin(const std::vector<std::string> &_map, pii &_start, pii &_target, const 
                     // cost = child.cost Modify here if the cost is not a constant
                     if (!calculated[child.first][child.second] || prev + cost < g_cost[child.first][child.second]) {
                         heu = calHeu(child, _target, h);
-                        prQ.push(std::make_pair(heu + prev + cost, child));
-                        f_cost[child.first][child.second] = heu + prev;
+                        g_cost[child.first][child.second] = prev + cost;
+                        // f(n) = g(n) + h(n)
+                        f_cost[child.first][child.second] = heu + prev + cost;
                         // parent[child] = node;
                         parent[child.first][child.second] = node;
                         // prev_cost[child] = prev + cost;
-                        g_cost[child.first][child.second] = prev + cost;
+                        prQ.push(std::make_pair(f_cost[child.first][child.second], child));
                         // calculated.insert(child);
                         // if (!calculated[child.first][child.second])
                         // if (!calculated[child.first][child.second]) step++;
